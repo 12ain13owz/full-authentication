@@ -59,8 +59,8 @@ export class LoginComponent {
 
   private initForm() {
     return this.fb.group({
-      email: ['touchfn@gmail.com', [Validators.required, Validators.email]],
-      password: ['!Qwer1234', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
     });
   }
 }

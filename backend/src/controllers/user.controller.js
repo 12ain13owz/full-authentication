@@ -134,7 +134,7 @@ const deleteUser = async (req, res, next) => {
   try {
     const id = +req.params.id;
     const user = await userService.findById(id);
-    if (!user) throw newError(404, "User not found");
+    if (!user) throw new Error(404, "User not found");
 
     const deletedRoleCount = await userRoleService.delete(
       id,

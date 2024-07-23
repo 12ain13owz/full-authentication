@@ -69,7 +69,7 @@ const checkRole = (roles) => {
     try {
       const userRoles = res.locals.user.Roles;
       if (!userRoles || !roles.some((role) => userRoles.includes(role)))
-        throw new Error(403, "Unauthorized");
+        throw newError(403, "Unauthorized");
 
       next();
     } catch (error) {

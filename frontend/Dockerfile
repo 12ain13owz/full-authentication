@@ -1,0 +1,34 @@
+# Use an official Node.js runtime as a parent image
+FROM node:20.15.1
+
+# Set the working directory
+WORKDIR /app
+
+# Install Angular CLI globally
+RUN npm install -g @angular/cli
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application
+COPY . .
+
+CMD ["ng", "serve", "--host", "0.0.0.0"]
+
+# Build the application
+# RUN ng build
+
+# # Install a simple http server to serve the static content
+# RUN npm install -g http-server
+
+# # Set the working directory to the build output directory
+# WORKDIR /app/dist/frontend/browser
+
+# # Expose port
+# EXPOSE 4200
+
+# # Command to run the application
+# CMD ["http-server", "-p", "4200"]

@@ -2,9 +2,9 @@
 
 ## Getting started
 
-- create .env file
-- generate RSA keys `(Key Size: 2048 bit)`: https://travistidwell.com/jsencrypt/demo/
-- generate Secret keys: https://randomkeygen.com/
+- Create .env file
+- Generate RSA keys `(Key Size: 2048 bit)`: https://travistidwell.com/jsencrypt/demo/
+- Generate Secret keys: https://randomkeygen.com/
 
 ```
 PORT="your_port"
@@ -24,7 +24,7 @@ REFRESH_TOKEN_PUBLIC_KEY="your_refresh_token_public_key"
 REFRESH_TOKEN_PRIVATE_KEY="your_refresh_token_private_key"
 ```
 
-- example .env
+- Example .env
 
 ```
 PORT="3000"
@@ -48,6 +48,8 @@ cd <project_name>\frontend
 ```
 npm install
 ```
+
+- Create database Postgres Ex.name tutarial_auth
 
 - Run Application
 

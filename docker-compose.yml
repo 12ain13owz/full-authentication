@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+    volumes:
+      - ./backend/public:/app/public
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_URI=postgres://user_postgres:pass_postgres@postgres:5432
+    depends_on:
+      - postgres
+    networks:
+      - full-auth-network
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    ports:
+      - "4200:4200"
+    networks:
+      - full-auth-network
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: user_postgres
+      POSTGRES_PASSWORD: pass_postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - full-auth-data:/var/lib/postgresql/data
+    networks:
+      - full-auth-network
+
+networks:
+  full-auth-network:
+    driver: bridge
+
+volumes:
+  full-auth-data:
+    driver: local

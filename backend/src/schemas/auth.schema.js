@@ -16,7 +16,7 @@ const register = zod.object({
           message:
             "Password must contain at least 8 characters, including uppercase, lowercase, number, and special character",
         }),
-      passwordConfirmation: zod.string({
+      confirmPassword: zod.string({
         required_error: "Confirm Password is required",
       }),
       firstname: zod
@@ -28,14 +28,22 @@ const register = zod.object({
       avatar: zod.string().optional().nullable(),
       remark: zod.string().optional().nullable(),
     })
-    .refine((data) => data.password === data.passwordConfirmation, {
+    .refine((data) => data.password === data.confirmPassword, {
       message: "Passwords do not match",
-      path: ["passwordConfirmation"],
+      path: ["confirmPassword"],
     }),
 });
 
+const resendVerification = zod.object({
+  body: zod.object({
+    email: zod
+      .string({ required_error: "Email is required" })
+      .email("Not a valid email"),
+  }),
+});
+
 const verifyEmail = zod.object({
-  params: zod.object({
+  body: zod.object({
     token: zod.string({ required_error: "Token is required" }),
   }),
 });
@@ -65,30 +73,29 @@ const resetPassword = zod.object({
       email: zod
         .string({ required_error: "Email is required" })
         .email("Not a valid email"),
-      passwordResetCode: zod
-        .string({ required_error: "Password reset code is required" })
-        .length(8, {
-          message: "Password reset code must be exactly 8 characters",
-        }),
-      newPassword: zod
-        .string({ required_error: "New password is required" })
-        .min(1, { message: "New password is required" })
+      otp: zod.string({ required_error: "OTP code is required" }).length(8, {
+        message: "OTP code must be exactly 8 characters",
+      }),
+      password: zod
+        .string({ required_error: "password is required" })
+        .min(1, { message: "password is required" })
         .regex(regexPassword, {
           message:
             "Password must contain at least 8 characters, including uppercase, lowercase, number, and special character",
         }),
-      newPasswordConfirmation: zod.string({
-        required_error: "Confirm new password is required",
+      confirmPassword: zod.string({
+        required_error: "Confirm password is required",
       }),
     })
-    .refine((data) => data.newPassword === data.newPasswordConfirmation, {
+    .refine((data) => data.password === data.confirmPassword, {
       message: "Passwords do not match",
-      path: ["newPasswordConfirmation"],
+      path: ["confirmPassword"],
     }),
 });
 
 module.exports = {
   register,
+  resendVerification,
   verifyEmail,
   login,
   forgotPassword,

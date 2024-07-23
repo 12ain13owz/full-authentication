@@ -3,12 +3,14 @@ const health = require("./health.routes");
 const auth = require("./auth.routes");
 const user = require("./user.routes");
 const profile = require("./profile.routes");
+const avatar = require("./avatar.routes");
 
 const router = express.Router();
 
 router.use("/api/v1/health", health);
 router.use("/api/v1/auth", auth);
-router.use("/api/v1/user", user);
+router.use("/api/v1/users", user);
 router.use("/api/v1/profile", profile);
+router.use("/api/v1/avatar", avatar);
 
 module.exports = router;

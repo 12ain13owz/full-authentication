@@ -11,8 +11,13 @@ router.post(
   validate(authSchema.register),
   authController.register
 );
-router.get(
-  "/verify/:token",
+router.post(
+  "/resend-verification",
+  validate(authSchema.resendVerification),
+  authController.resendVerification
+);
+router.post(
+  "/verify-email",
   [validate(authSchema.verifyEmail), verify.email],
   authController.verifyEmail
 );

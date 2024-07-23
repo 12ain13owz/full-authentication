@@ -9,6 +9,14 @@ const findUserById = zod.object({
   }),
 });
 
+const findUserByEmail = zod.object({
+  params: zod.object({
+    email: zod
+      .string({ required_error: "Email is required" })
+      .email({ message: "Not a valid email" }),
+  }),
+});
+
 const updateProfile = zod.object({
   params: zod.object({
     id: zod
@@ -51,6 +59,7 @@ const deleteUser = zod.object({
 
 module.exports = {
   findUserById,
+  findUserByEmail,
   updateProfile,
   updateRoles,
   deleteUser,

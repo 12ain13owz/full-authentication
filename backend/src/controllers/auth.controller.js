@@ -66,6 +66,29 @@ const register = async (req, res, next) => {
   }
 };
 
+const resendVerification = async (req, res, next) => {
+  res.locals.func = "Controller > Auth > resendVerificationEmail";
+  try {
+    const email = normalizeUnique(req.body.email);
+    const user = await userService.findByEmail(email);
+
+    if (!user) throw newError(401, "Could not send email");
+    if (user.verified) throw newError(400, "Email is already verified");
+
+    const { id, verificationCode } = user.toJSON();
+    const fullname = user.firstname + " " + user.lastname;
+
+    await send.verificationEmail(id, fullname, user.email, verificationCode);
+
+    res.json({
+      message:
+        "If you don't see the email in your inbox, please check your spam folder",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const verifyEmail = async (req, res, next) => {
   res.locals.func = "Controller > Auth > verifyEmail";
 
@@ -84,7 +107,10 @@ const verifyEmail = async (req, res, next) => {
     const [updatedRowsCount] = await userService.update(id, body);
     if (updatedRowsCount === 0) throw newError(401, "Could not verify email");
 
-    res.json({ message: "Successfully verified" });
+    res.json({
+      message:
+        "Your email has been successfully verified. You can now log in to your account.",
+    });
   } catch (error) {
     next(error);
   }
@@ -119,7 +145,7 @@ const login = async (req, res, next) => {
       secure: isProduction,
     });
 
-    res.json({ message: "Login Successfully", accessToken, profile });
+    res.json({ message: "Login Successfully", accessToken, data: profile });
   } catch (error) {
     next(error);
   }
@@ -204,10 +230,12 @@ const resetPassword = async (req, res, next) => {
 
   try {
     const email = normalizeUnique(req.body.email);
-    const { passwordResetCode, newPassword } = req.body;
+    const password = req.body.password;
+    const passwordResetCode = req.body.otp;
 
     const user = await userService.findByEmail(email);
     if (!user) throw newError(400, "Email is not registered");
+
     if (!user.passwordResetCode)
       throw newError(400, "Password reset code is not set for this user");
     if (user.passwordResetCode !== passwordResetCode)
@@ -222,13 +250,14 @@ const resetPassword = async (req, res, next) => {
 
     const id = user.id;
     const body = {
-      password: hashPassowrd(newPassword),
+      password: hashPassowrd(password),
       passwordResetCode: null,
       passwordExpired: null,
     };
+
     const [updatedRowsCount] = await userService.update(id, body);
     if (updatedRowsCount === 0)
-      throw newError(400, "User not found or can not changes password");
+      throw newError(400, "User not found or can not change password");
 
     res.json({ message: "Password reset successfully" });
   } catch (error) {
@@ -239,6 +268,7 @@ const resetPassword = async (req, res, next) => {
 module.exports = {
   register,
   verifyEmail,
+  resendVerification,
   login,
   logout,
   refreshToken,

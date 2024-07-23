@@ -7,11 +7,11 @@ const email = (req, res, next) => {
   res.locals.func = "Middleware > Verify > email";
 
   try {
-    const token = req.params.token;
+    const { token } = req.body;
     if (!token) throw newError(404, "Token not found");
 
-    const decodeURI = decodeURIComponent(token);
-    const { id, email, verificationCode } = decrypt(decodeURI);
+    const decodeToken = decodeURIComponent(token);
+    const { id, email, verificationCode } = decrypt(decodeToken);
 
     if (!id || !email || !verificationCode)
       throw newError(400, "Invalid verification link");
@@ -29,10 +29,9 @@ const accessToken = (req, res, next) => {
   try {
     const accessToken = req.headers.authorization?.split(" ")[1];
     if (!accessToken || accessToken === "null")
-      throw newError(403, "No token provided (1)", true);
+      throw newError(401, "No token provided", true);
 
     const decoded = verifyJwt(accessToken, "accessTokenPublicKey");
-    if (!decoded) throw newError(403, "No token provided (2)", true);
 
     res.locals.userId = decoded.userId;
     next();
@@ -63,13 +62,14 @@ const isUserActive = async (req, res, next) => {
   }
 };
 
-const checkRole = (role) => {
+const checkRole = (roles) => {
   return (req, res, next) => {
     res.locals.func = "Middleware > Verify > checkRole";
 
     try {
-      const roles = res.locals.user.Roles;
-      if (!roles || !roles.includes(role)) throw newError(403, "Unauthorized");
+      const userRoles = res.locals.user.Roles;
+      if (!userRoles || !roles.some((role) => userRoles.includes(role)))
+        throw new Error(403, "Unauthorized");
 
       next();
     } catch (error) {

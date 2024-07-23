@@ -8,24 +8,24 @@ const sighJwt = (object, keyName, options) => {
     const privateKey = config.get(keyName);
     const token = sign(object, privateKey, {
       algorithm: "RS256",
-      ...(options && options),
+      ...options,
     });
 
     return token;
   } catch (error) {
-    throw newError(403, `sighJwt - ${error.message}`);
+    throw newError(401, `sighJwt - ${error.message}`);
   }
 };
 
 const signAccessToken = (userId) => {
   try {
     const accessToken = sighJwt({ userId }, "accessTokenPrivateKey", {
-      expiresIn: "1d",
+      expiresIn: "15m",
     });
 
     return accessToken;
   } catch (error) {
-    throw newError(403, `signAccessToken, ${error.message}`);
+    throw newError(401, `signAccessToken, ${error.message}`);
   }
 };
 
@@ -37,7 +37,7 @@ const signRefreshToken = (userId) => {
 
     return refreshToken;
   } catch (error) {
-    throw newError(403, `signRefreshToken, ${error.message}`);
+    throw newError(401, `signRefreshToken, ${error.message}`);
   }
 };
 
@@ -48,7 +48,7 @@ const verifyJwt = (token, keyName) => {
 
     return decoded;
   } catch (error) {
-    throw newError(403, `verifyJwt, ${error.message}`);
+    throw newError(401, `verifyJwt, ${error.message}`, true);
   }
 };
 

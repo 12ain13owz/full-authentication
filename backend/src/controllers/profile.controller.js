@@ -30,14 +30,17 @@ const updateProfile = async (req, res, next) => {
     if (updatedRowsCount === 0)
       throw newError(404, "User not found or no changes applied");
 
-    res.json({ message: "Profile update successfully", user: { id, ...body } });
+    res.json({
+      message: "Profile update successfully",
+      data: { id, ...body },
+    });
   } catch (error) {
     next(error);
   }
 };
 
-const uploadImage = async (req, res, next) => {
-  res.locals.func = "Controller > Profile > uploadImage";
+const uploadAvatar = async (req, res, next) => {
+  res.locals.func = "Controller > Profile > uploadAvatar";
 
   try {
     if (!req.file || !req.processedImage)
@@ -90,7 +93,7 @@ const changesPassword = async (req, res, next) => {
 module.exports = {
   getProfile,
   updateProfile,
-  uploadImage,
+  uploadAvatar,
   updateAvatar,
   changesPassword,
 };

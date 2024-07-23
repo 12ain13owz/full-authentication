@@ -22,12 +22,14 @@ const verificationEmail = async (id, fullname, email, verificationCode) => {
     const data = JSON.stringify({ id, email, verificationCode });
     const encryptData = encrypt(data);
     const encodeURI = encodeURIComponent(encryptData);
+    const whitelist = config.get("whitelist").split(",")[0];
 
     const templatePath = path.join(
       __dirname,
       "../templates/verify-email.template.html"
     );
-    const href = `http://localhost:3000/api/v1/auth/verify/${encodeURI}`;
+
+    const href = `${whitelist}/verify-email/${encodeURI}`;
     let htmlTemplate = fs.readFileSync(templatePath, "utf-8");
     htmlTemplate = htmlTemplate.replace("{{ fullname }}", fullname);
     htmlTemplate = htmlTemplate.replace("{{ href }}", href);

@@ -31,7 +31,26 @@ const findUserById = async (req, res, next) => {
   try {
     const id = +req.params.id;
     const result = await userService.findById(id);
-    if (!result) throw new Error(404, "User not found");
+    if (!result) throw newError(404, "User not found");
+
+    const user = {
+      ...omit(result.toJSON(), privateUserFields),
+      Roles: extractRoleNames(result.Roles),
+    };
+
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const findUserByEmail = async (req, res, next) => {
+  res.locals.func = "Controller > User > findUserByEmail";
+
+  try {
+    const { email } = req.params;
+    const result = await userService.findByEmail(email);
+    if (!result) throw newError(404, "User not found");
 
     const user = {
       ...omit(result.toJSON(), privateUserFields),
@@ -58,7 +77,7 @@ const updateUserProfile = async (req, res, next) => {
 
     res.json({
       message: "Update user profile successfully",
-      user: { id, ...body },
+      data: { id, ...body },
     });
   } catch (error) {
     next(error);
@@ -115,7 +134,7 @@ const deleteUser = async (req, res, next) => {
   try {
     const id = +req.params.id;
     const user = await userService.findById(id);
-    if (!user) throw new Error(404, "User not found");
+    if (!user) throw newError(404, "User not found");
 
     const deletedRoleCount = await userRoleService.delete(
       id,
@@ -141,6 +160,7 @@ const deleteUser = async (req, res, next) => {
 module.exports = {
   findAllUsers,
   findUserById,
+  findUserByEmail,
   updateUserProfile,
   updateUserRoles,
   deleteUser,

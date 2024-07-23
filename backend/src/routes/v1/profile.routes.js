@@ -3,7 +3,6 @@ const router = express.Router();
 const profileController = require("../../controllers/profile.controller");
 const validate = require("../../middlewares/validate.middleware");
 const verify = require("../../middlewares/verify.middleware");
-const image = require("../../middlewares/upload.middleware");
 const profielSchema = require("../../schemas/profile.schema");
 
 router.get(
@@ -19,11 +18,6 @@ router.patch(
     validate(profielSchema.updateProfile),
   ],
   profileController.updateProfile
-);
-router.post(
-  "/avatar",
-  [verify.accessToken, verify.isUserActive, image.upload, image.process],
-  profileController.uploadImage
 );
 router.patch(
   "/avatar",

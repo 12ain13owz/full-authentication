@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 const log = require("./utils/logger");
 const routesV1 = require("./routes/v1");
@@ -25,6 +26,7 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use("/images", express.static(path.join(__dirname, "../public")));
 
 app.use(routesV1);
 app.use(errorHandler);

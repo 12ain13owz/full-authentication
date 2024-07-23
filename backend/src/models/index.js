@@ -36,7 +36,7 @@ models.UserRole = UserRole;
 module.exports = models;
 
 async function generateRole() {
-  const roles = ["create", "update", "delete"];
+  const roles = ["USER", "ADMIN", "MODERATOR"];
 
   for (const name of roles) {
     const [role, created] = await Role.findOrCreate({

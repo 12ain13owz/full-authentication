@@ -2,7 +2,7 @@ const config = {
   port: process.env.PORT || 3000,
   node_env: process.env.NODE_ENV || "development",
   secret_key: process.env.SECRET_KEY || "",
-  whitelist: process.env.WHITELIST || "",
+  whitelist: process.env.WHITE_LIST || "",
   db: {
     uri: process.env.DB_URI || "",
     name: process.env.DB_NAME || "",

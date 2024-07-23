@@ -36,13 +36,13 @@ const changesPassword = zod.object({
           message:
             "Password must contain at least 8 characters, including uppercase, lowercase, number, and special character",
         }),
-      newPasswordConfirmation: zod.string({
-        required_error: "Confirm new password is required",
+      confirmPassword: zod.string({
+        required_error: "Confirm password is required",
       }),
     })
-    .refine((data) => data.newPassword === data.newPasswordConfirmation, {
+    .refine((data) => data.newPassword === data.confirmPassword, {
       message: "Passwords do not match",
-      path: ["newPasswordConfirmation"],
+      path: ["confirmPassword"],
     }),
 });
 

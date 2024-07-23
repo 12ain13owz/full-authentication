@@ -1,0 +1,30 @@
+<div class="avatar-container">
+  @if (imageUrl.value) {
+  <div
+    class="image-container"
+    [ngClass]="{ 'box-shadow-avatar': !!imageUrl.value }"
+    [ngStyle]="{ backgroundImage: 'url(' + imageUrl.value + ')' }"
+  ></div>
+  } @else {
+  <div class="image-container avatar-placeholder"></div>
+  }
+
+  <label for="avatar-input-file">
+    <div class="icon-wrapper">
+      <input
+        type="file"
+        id="avatar-input-file"
+        accept="image/*"
+        (change)="onFileChange($event)"
+      />
+      <mat-icon class="icon">edit</mat-icon>
+    </div>
+  </label>
+</div>
+
+<p class="text-error">
+  <app-error-field
+    [control]="imageFile"
+    [errorMessage]="validationField"
+  ></app-error-field>
+</p>

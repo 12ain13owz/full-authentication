@@ -1,0 +1,116 @@
+@if (form() === 'card') {
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <ngx-skeleton-loader
+      [theme]="{
+        height: height(),
+        background: backgroundColor,
+        width: '100px'
+      }"
+      appearance="line"
+    />
+  </mat-card-header>
+
+  <form>
+    <mat-card-content class="loader-box">
+      @for (no of onRepeat(2); track $index) {
+      <ngx-skeleton-loader
+        [theme]="{
+          height: height(),
+          background: backgroundColor,
+          width: '100%'
+        }"
+        appearance="line"
+      />
+      }
+
+      <div class="loader-row">
+        @for (no of onRepeat(2); track $index) {
+        <ngx-skeleton-loader
+          [theme]="{
+            height: height(),
+            background: backgroundColor,
+            width: '100%'
+          }"
+          appearance="line"
+        />
+        }
+      </div>
+
+      <ngx-skeleton-loader
+        [theme]="{
+          height: height(),
+          background: backgroundColor,
+          width: '100%'
+        }"
+        appearance="line"
+      />
+
+      <div class="loader-action">
+        @for (no of onRepeat(2); track $index) {
+        <ngx-skeleton-loader
+          [theme]="{
+            height: height(),
+            background: backgroundColor,
+            width: '100px'
+          }"
+          appearance="line"
+        />
+        }
+      </div>
+    </mat-card-content>
+  </form>
+</mat-card>
+} @else if (form() === 'list') {
+<mat-card>
+  <mat-card-header>
+    <ngx-skeleton-loader
+      [theme]="{
+        height: height(),
+        background: backgroundColor,
+        width: '100px'
+      }"
+      appearance="line"
+    />
+  </mat-card-header>
+
+  <form>
+    <mat-card-content class="loader-box">
+      @for (no of onRepeat(2); track $index) {
+      <ngx-skeleton-loader
+        [theme]="{
+          height: height(),
+          background: backgroundColor,
+          width: '100%'
+        }"
+        appearance="line"
+      />
+      }
+
+      <div class="loader-row-list">
+        @for (no of onRepeat(20); track $index) {
+        <ngx-skeleton-loader
+          [theme]="{
+            height: height(),
+            background: backgroundColor,
+            width: '100%'
+          }"
+          appearance="line"
+        />
+        }
+      </div>
+
+      @for (no of onRepeat(2); track $index) {
+      <ngx-skeleton-loader
+        [theme]="{
+          height: height(),
+          background: backgroundColor,
+          width: '100%'
+        }"
+        appearance="line"
+      />
+      }
+    </mat-card-content>
+  </form>
+</mat-card>
+}

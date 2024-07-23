@@ -1,0 +1,22 @@
+.loader-box {
+  display: flex;
+  flex-direction: column;
+
+  .loader-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .loader-row-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+  }
+
+  .loader-action {
+    display: grid;
+    grid-template-columns: 100px 100px;
+    gap: 10px;
+  }
+}

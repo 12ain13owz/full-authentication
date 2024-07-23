@@ -1,0 +1,73 @@
+@if (profile$ | async; as profile) {
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Basic info</mat-card-title>
+    <mat-card-subtitle>Profile</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="profile-container">
+      <a class="info-row" routerLink="../avatar">
+        <span class="d-flex align-center gap-10">
+          <mat-icon>photo_camera</mat-icon>
+          <span>Avatar</span>
+        </span>
+        <span>A profile picture helps personalise your acccount</span>
+        <div class="avatar-container">
+          @if (profile$ | async; as profile) {
+          <div
+            class="image-container"
+            [ngStyle]="{
+              backgroundImage: 'url(' + IMAGE_URL + profile.avatar + ')'
+            }"
+          ></div>
+          } @else {
+          <div class="image-container avatar-placeholder"></div>
+          }
+        </div>
+      </a>
+      <mat-divider></mat-divider>
+
+      <a class="info-row" routerLink="edit">
+        <span class="d-flex align-center gap-10">
+          <mat-icon>account_circle</mat-icon>
+          <span>Name</span>
+        </span>
+        <span>{{ profile.firstname }} {{ profile.lastname }}</span>
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </a>
+      <mat-divider></mat-divider>
+
+      <a class="info-row" routerLink="../change-password">
+        <span class="d-flex align-center gap-10">
+          <mat-icon>key</mat-icon>
+          <span>Password</span>
+        </span>
+        <span>Change Password</span>
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </a>
+      <mat-divider></mat-divider>
+
+      <div class="info-row">
+        <span class="d-flex align-center gap-10">
+          <mat-icon>email</mat-icon>
+          <span>Email</span>
+        </span>
+        <span>{{ profile.email }}</span>
+      </div>
+      <mat-divider></mat-divider>
+
+      <div class="info-row">
+        <span class="d-flex align-center gap-10">
+          <mat-icon>settings</mat-icon>
+          <span>Role</span>
+        </span>
+        <span>
+          {{ profile.Roles | roleDisplayed }}
+        </span>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </mat-card-content>
+</mat-card>
+}

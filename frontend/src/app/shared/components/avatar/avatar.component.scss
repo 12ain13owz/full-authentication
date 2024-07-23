@@ -1,0 +1,74 @@
+.avatar-container {
+  position: relative;
+  width: fit-content;
+  margin-bottom: 20px;
+
+  .image-container {
+    height: 130px;
+    width: 130px;
+    border-radius: 50%;
+    background-color: #fff;
+    background-position: center;
+    background-size: cover;
+    z-index: 1;
+
+    &.avatar-placeholder {
+      background-image: url("/assets/images/avatar.png");
+    }
+  }
+
+  .box-shadow-avatar {
+    box-shadow: 0 10px 20px 20px #002f931a;
+  }
+
+  .icon-wrapper {
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    padding: 0.35rem;
+    background-color: #ba005c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    top: 75%;
+    z-index: 2;
+    cursor: pointer;
+
+    &:hover {
+      transition: all 0.25s;
+      background-color: darken(#c97b95, 15%);
+    }
+
+    .icon {
+      color: #fff;
+    }
+
+    label {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+  }
+}
+
+.text-error {
+  color: #f44336;
+  flex-basis: content;
+}
+
+:host-context(body.dark-theme) {
+  .icon-wrapper {
+    background-color: #ffb1c5;
+
+    .icon {
+      color: #65002f;
+    }
+  }
+}

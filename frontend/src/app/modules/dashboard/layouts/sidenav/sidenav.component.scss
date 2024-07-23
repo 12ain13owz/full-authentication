@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  height: 100%;
+  border-right: 1px solid #ffd9e1;
+  padding-inline: 5px;
+}
+
+.active {
+  background-color: #ba005c;
+
+  mat-icon,
+  span {
+    color: #fff;
+    transition: color 0.3s;
+  }
+
+  span {
+    font-weight: 500;
+  }
+}
+
+:host-context(body.dark-theme) {
+  .active {
+    background-color: #f4a3ba;
+
+    mat-icon,
+    span {
+      color: #65002f;
+    }
+  }
+}

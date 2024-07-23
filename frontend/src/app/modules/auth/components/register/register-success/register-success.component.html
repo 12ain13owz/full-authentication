@@ -1,0 +1,29 @@
+@if (isLoading) {
+<app-progress-bar></app-progress-bar>
+}
+
+<mat-card-header>
+  <mat-card-title>Registration Successful!</mat-card-title>
+</mat-card-header>
+
+<section>
+  <mat-card-content>
+    <p style="line-height: 20px">
+      Thank you for registering. Please check your email and click on the
+      verification link to complete your registration.
+    </p>
+  </mat-card-content>
+</section>
+
+<mat-divider></mat-divider>
+<mat-card-actions class="justify-between">
+  <button
+    type="button"
+    mat-flat-button
+    (click)="onResendVerification()"
+    [disabled]="isLoading"
+  >
+    Resend Verification Email
+  </button>
+  <a mat-button routerLink="../login">Login</a>
+</mat-card-actions>

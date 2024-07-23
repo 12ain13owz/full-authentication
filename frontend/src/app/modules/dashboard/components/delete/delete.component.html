@@ -1,0 +1,9 @@
+@if ((isLoading$ | async) && (users$ | async)?.length <= 0) {
+<app-skeleton-loader></app-skeleton-loader>
+} @else {
+<app-table
+  [displayedColumns]="columns"
+  [dataInput]="users$ | async"
+  (action)="onDelete($event)"
+></app-table>
+}

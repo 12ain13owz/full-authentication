@@ -1,0 +1,38 @@
+@if (isLoading$ | async) {
+<app-progress-bar></app-progress-bar>
+}
+
+<form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+  <mat-form-field class="w-100">
+    <mat-label>E-mail</mat-label>
+    <input matInput formControlName="email" type="email" />
+    <button mat-icon-button matSuffix>
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+</form>
+
+@if (user) {
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Update Roles</mat-card-title>
+  </mat-card-header>
+
+  <form [formGroup]="rolesForm" (ngSubmit)="onSubmit()">
+    <mat-card-content formArrayName="roles">
+      @for (role of roleOptions; track role; let i = $index) {
+      <mat-checkbox [formControlName]="i">
+        <span>{{ role.name }}</span>
+      </mat-checkbox>
+      }
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button type="submit" [disabled]="isLoading$ | async">
+        Update
+      </button>
+      <button mat-button type="button" (click)="onReset()">Reset</button>
+    </mat-card-actions>
+  </form>
+</mat-card>
+}

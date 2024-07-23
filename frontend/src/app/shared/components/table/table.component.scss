@@ -1,0 +1,35 @@
+.table-container {
+  overflow: auto;
+
+  th {
+    text-transform: capitalize;
+  }
+
+  .avatar-container {
+    position: relative;
+    width: fit-content;
+    border: 2px solid transparent;
+    border-radius: 50%;
+
+    .image-container {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      background-position: center;
+      background-size: cover;
+      z-index: 1;
+
+      &.avatar-placeholder {
+        background-image: url("/assets/images/avatar.png");
+      }
+    }
+  }
+}
+
+.verified-icon {
+  color: #01be2a;
+}
+
+.unverified-icon {
+  color: #e91e63;
+}

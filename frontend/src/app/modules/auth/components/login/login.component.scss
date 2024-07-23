@@ -1,0 +1,9 @@
+.text-register {
+  color: #514346;
+}
+
+:host-context(body.dark-theme) {
+  .text-register {
+    color: #d6c2c5;
+  }
+}

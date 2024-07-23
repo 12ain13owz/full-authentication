@@ -1,0 +1,12 @@
+mat-checkbox {
+  display: block;
+  margin-bottom: 10px;
+}
+
+:host-context(body.dark-theme) {
+  mat-checkbox {
+    span {
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+}

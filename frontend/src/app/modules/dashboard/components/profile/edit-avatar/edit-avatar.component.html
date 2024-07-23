@@ -1,0 +1,25 @@
+@if (isLoading) {
+<app-progress-bar></app-progress-bar>
+}
+
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Avatar</mat-card-title>
+  </mat-card-header>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <app-avatar (avatar)="onChangeAvatar($event)"></app-avatar>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        type="submit"
+        [disabled]="!form.valid || isLoading"
+      >
+        Change Avatar
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

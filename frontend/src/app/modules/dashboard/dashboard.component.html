@@ -1,0 +1,19 @@
+<div class="dashboard-container" sty>
+  <app-toolbar (toggleSidenavEvent)="sidenav.toggle()"></app-toolbar>
+
+  <mat-sidenav-container>
+    <mat-sidenav
+      #sidenav
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false"
+    >
+      <app-sidenav></app-sidenav>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <main>
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

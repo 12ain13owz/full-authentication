@@ -1,0 +1,20 @@
+<section class="container verify-container">
+  <mat-card appearance="outlined" class="w-100">
+    <mat-card-header>
+      <mat-card-title>Verify E-mail</mat-card-title>
+    </mat-card-header>
+
+    <section>
+      <mat-card-content>
+        <p style="line-height: 20px">
+          {{ message$ | async }}
+        </p>
+      </mat-card-content>
+    </section>
+
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+      <a mat-button routerLink="auth/login">Login</a>
+    </mat-card-actions>
+  </mat-card>
+</section>

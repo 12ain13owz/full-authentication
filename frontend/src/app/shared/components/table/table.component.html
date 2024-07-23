@@ -1,0 +1,57 @@
+<mat-card class="table-container" appearance="outlined">
+  <table mat-table [dataSource]="dataSource" matSort>
+    @for (column of displayedColumns(); track $index) {
+    <ng-container [matColumnDef]="column">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column }}</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <ng-container>
+          @switch (column) { @case ('avatar') {
+          <div class="avatar-container">
+            @if (element[column]) {
+            <div
+              class="image-container"
+              [ngStyle]="{
+                backgroundImage: 'url(' + IMAGE_URL + element[column] + ')'
+              }"
+            ></div>
+            } @else {
+            <div class="image-container avatar-placeholder"></div>
+            }
+          </div>
+          } @case ("verified") {
+          <mat-icon *ngIf="element[column]" class="verified-icon"
+            >check</mat-icon
+          >
+          <mat-icon *ngIf="!element[column]" class="unverified-icon"
+            >close</mat-icon
+          >
+          } @case ('active') {
+          <mat-icon *ngIf="element[column]" class="verified-icon"
+            >toggle_on</mat-icon
+          >
+          <mat-icon *ngIf="!element[column]" class="unverified-icon"
+            >toggle_off</mat-icon
+          >
+          } @case ('action') {
+          <button type="button" mat-icon-button (click)="onAction(element.id)">
+            <mat-icon class="unverified-icon">delete</mat-icon>
+          </button>
+          } @default {
+          {{ element[column] }}
+          } }
+        </ng-container>
+      </td>
+    </ng-container>
+    }
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns()"></tr>
+  </table>
+
+  <mat-card-actions class="justify-end">
+    <mat-paginator
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </mat-card-actions>
+</mat-card>

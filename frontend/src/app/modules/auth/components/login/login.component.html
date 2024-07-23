@@ -1,0 +1,54 @@
+<mat-card-header>
+  <mat-card-title>Login Form</mat-card-title>
+  <mat-card-subtitle>Tutorial Authentication</mat-card-subtitle>
+</mat-card-header>
+
+<form [formGroup]="form" (ngSubmit)="onLogin()">
+  <mat-card-content>
+    <mat-form-field class="w-100">
+      <mat-label>E-mail</mat-label>
+      <input matInput formControlName="email" type="text" />
+      <mat-icon matSuffix>email</mat-icon>
+
+      <mat-error>
+        <app-error-field
+          [control]="email"
+          [errorMessage]="validationField.email"
+        >
+        </app-error-field>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        [type]="hide() ? 'password' : 'text'"
+      />
+
+      <button type="button" mat-icon-button matSuffix (click)="onHide($event)">
+        <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+
+      <mat-error>
+        <app-error-field
+          [control]="password"
+          [errorMessage]="validationField.password"
+        >
+        </app-error-field>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="d-flex justify-between">
+      <button mat-flat-button>Login</button>
+      <a mat-button routerLink="../forgot-password">Forgot Password?</a>
+    </div>
+  </mat-card-content>
+</form>
+
+<mat-divider></mat-divider>
+<mat-card-actions class="justify-center">
+  <span class="text-register">Don't have an account? </span>
+  <a mat-button routerLink="../register">Register</a>
+</mat-card-actions>

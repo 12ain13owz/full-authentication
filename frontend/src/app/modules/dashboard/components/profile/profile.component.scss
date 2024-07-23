@@ -1,0 +1,73 @@
+mat-card {
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+
+  a {
+    text-decoration: none;
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 16px;
+    color: #201a1b;
+
+    > *:nth-child(1) {
+      flex: 0 0 30%;
+    }
+
+    > *:nth-child(2) {
+      flex: 1;
+      text-align: left;
+    }
+
+    > *:nth-child(3) {
+      flex: 0 0 auto;
+    }
+  }
+
+  .info-row:hover {
+    background-color: #ede9ed;
+  }
+}
+
+:host-context(body.dark-theme) {
+  .profile-container {
+    .info-row {
+      color: #ece0e1;
+    }
+
+    .info-row:hover {
+      background-color: #312a2b;
+    }
+  }
+}
+
+.avatar-container {
+  position: relative;
+  width: fit-content;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  transition: 0.3s;
+  cursor: pointer;
+
+  .image-container {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: #fff;
+    background-position: center;
+    background-size: cover;
+    z-index: 1;
+
+    &.avatar-placeholder {
+      background-image: url("/assets/images/avatar.png");
+    }
+  }
+}

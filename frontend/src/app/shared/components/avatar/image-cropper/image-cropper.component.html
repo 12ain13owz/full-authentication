@@ -1,0 +1,8 @@
+<div class="crop-box">
+  <img id="image" height="400" alt="Avatar" [src]="sanitizedUrl" #imageRef />
+
+  <mat-dialog-actions>
+    <button mat-button (click)="onReset()" tabindex="-1">Reset</button>
+    <button mat-flat-button (click)="onCrop()" tabindex="-1">Ok</button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,126 @@
+@if (isLoading) {
+<app-progress-bar></app-progress-bar>
+} @if (isRegistered) {
+<app-register-success [email]="email.value"></app-register-success>
+} @else {
+<mat-card-header>
+  <mat-card-title>Register Form</mat-card-title>
+  <mat-card-subtitle>Tutorial Authentication</mat-card-subtitle>
+</mat-card-header>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-card-content>
+    <app-avatar (avatar)="onChangeAvatar($event)"></app-avatar>
+
+    <mat-form-field class="w-100">
+      <mat-label>E-mail</mat-label>
+      <input matInput formControlName="email" type="email" />
+      <mat-icon matSuffix>email</mat-icon>
+
+      <mat-error>
+        <app-error-field
+          [control]="email"
+          [errorMessage]="validationField.email"
+        >
+        </app-error-field>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        [type]="hidePasswords().password ? 'password' : 'text'"
+      />
+
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        tabindex="-1"
+        (click)="onHidePasswords('password', $event)"
+      >
+        <mat-icon>{{
+          hidePasswords().password ? "visibility_off" : "visibility"
+        }}</mat-icon>
+      </button>
+
+      <mat-error>
+        <app-error-field
+          [control]="password"
+          [errorMessage]="validationField.password"
+        >
+        </app-error-field>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Confirm Password</mat-label>
+      <input
+        matInput
+        formControlName="confirmPassword"
+        [type]="hidePasswords().confirmPassword ? 'password' : 'text'"
+      />
+
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        tabindex="-1"
+        (click)="onHidePasswords('confirmPassword', $event)"
+      >
+        <mat-icon>{{
+          hidePasswords().confirmPassword ? "visibility_off" : "visibility"
+        }}</mat-icon>
+      </button>
+
+      <mat-error>
+        <app-error-field
+          [control]="confirmPassword"
+          [errorMessage]="validationField.confirmPassword"
+        >
+        </app-error-field>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="d-flex gap-10">
+      <mat-form-field class="w-100">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstname" type="text" />
+
+        <mat-error>
+          <app-error-field
+            [control]="firstname"
+            [errorMessage]="validationField.firstname"
+          >
+          </app-error-field>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastname" type="text" />
+
+        <mat-error>
+          <app-error-field
+            [control]="lastname"
+            [errorMessage]="validationField.lastname"
+          >
+          </app-error-field>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <button type="submit" mat-flat-button [disabled]="isLoading">
+      Register
+    </button>
+  </mat-card-content>
+</form>
+
+<mat-divider></mat-divider>
+<mat-card-actions class="justify-center">
+  <span class="text-register">Don't have an account? </span>
+  <a mat-button routerLink="../login">Login</a>
+</mat-card-actions>
+}

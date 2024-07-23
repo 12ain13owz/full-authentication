@@ -1,0 +1,177 @@
+:host {
+  --toggle-scale: 0.25;
+  --bg-color: #ffffff;
+  --icon-color: #e91e63;
+}
+
+:host-context(body.dark-theme) {
+  --bg-color: #0f0f11;
+  --icon-color: #ffff00;
+}
+
+.toggle-theme {
+  position: relative;
+  width: calc(230px * var(--toggle-scale));
+  height: calc(120px * var(--toggle-scale));
+  border-radius: 60px;
+  background: var(--bg-color);
+  transition: background-color 0.5s;
+
+  label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+    z-index: 5;
+  }
+
+  input {
+    display: none;
+  }
+
+  .circle {
+    &,
+    &::before {
+      content: "";
+      position: absolute;
+      width: calc(80px * var(--toggle-scale));
+      height: calc(80px * var(--toggle-scale));
+      left: calc(20px * var(--toggle-scale));
+      top: calc(20px * var(--toggle-scale));
+      background-color: var(--icon-color);
+      border-radius: 50%;
+      z-index: 1;
+      transition: transform 0.5s, background-color 0.5s;
+    }
+
+    &::before {
+      top: 0;
+      left: 0;
+      transform: translate3d(
+          calc(-30px * var(--toggle-scale)),
+          calc(-40px * var(--toggle-scale)),
+          0
+        )
+        scale(0.2);
+      background-color: var(--bg-color);
+    }
+  }
+
+  .switcher {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    .dots {
+      &::before,
+      &::after,
+      .dot-b {
+        content: "";
+        position: absolute;
+        width: calc(20px * var(--toggle-scale));
+        height: calc(20px * var(--toggle-scale));
+        top: calc(25px * var(--toggle-scale));
+        right: calc(50px * var(--toggle-scale));
+        border-radius: 50%;
+        background-color: var(--icon-color);
+        transition: transform 0.5s;
+        z-index: 0;
+      }
+
+      &::after {
+        top: 55%;
+        right: 38%;
+        transform: scale(0.4);
+      }
+
+      .dot-b {
+        opacity: 0;
+        transform: scale(0);
+        transition: opacity 0.3s, transform 0.5s;
+      }
+    }
+
+    .star {
+      position: absolute;
+      width: 0;
+      height: 0;
+      font-size: 6px;
+      border-right: 0.3em solid transparent;
+      border-bottom: 0.7em solid var(--icon-color);
+      border-left: 0.3em solid transparent;
+      transform: translate3d(
+        calc(190px * var(--toggle-scale)),
+        calc(90px * var(--toggle-scale)),
+        0
+      );
+      opacity: 0;
+      transition: opacity 0.5s, transform 0.5s;
+
+      &:before,
+      &:after {
+        content: "";
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        top: 0.6em;
+        left: -1em;
+        border-right: 1em solid transparent;
+        border-bottom: 0.7em solid var(--icon-color);
+        border-left: 1em solid transparent;
+        transform: rotate(-35deg);
+      }
+
+      &::after {
+        transform: rotate(35deg);
+      }
+    }
+  }
+
+  input:checked + .switcher {
+    .circle {
+      transform: translateX(calc(110px * var(--toggle-scale)));
+
+      &::before {
+        transform: translate3d(
+            calc(-20px * var(--toggle-scale)),
+            calc(-10px * var(--toggle-scale)),
+            0
+          )
+          scale(0.8);
+      }
+    }
+
+    .dots {
+      &::before,
+      &::after,
+      .dot-b {
+        transform: translateX(calc(-80px * var(--toggle-scale))) scale(0.25);
+      }
+
+      &::after {
+        transform: translateX(calc(-80px * var(--toggle-scale))) scale(0.15);
+      }
+
+      .dot-b {
+        top: 50%;
+        right: 50%;
+        opacity: 1;
+        transform: scale(0.5);
+      }
+    }
+
+    .star {
+      opacity: 1;
+      transform: translate3d(
+        calc(43px * var(--toggle-scale)),
+        calc(25px * var(--toggle-scale)),
+        0
+      );
+    }
+  }
+}

@@ -49,6 +49,6 @@ async function generateRole() {
   }
 }
 
-// setTimeout(() => {
-//   generateRole();
-// }, 200);
+setTimeout(() => {
+  generateRole();
+}, 200);

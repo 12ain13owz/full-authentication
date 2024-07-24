@@ -141,7 +141,7 @@ const login = async (req, res, next) => {
       path: "/",
       expires: expiresCookie,
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: isProduction ? "none" : "lax",
       secure: isProduction,
     });
 
@@ -184,7 +184,7 @@ const refreshToken = async (req, res, next) => {
       path: "/",
       expires: expiresCookie,
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: isProduction ? "none" : "lax",
       secure: isProduction,
     });
 

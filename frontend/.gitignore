@@ -45,4 +45,4 @@ firebase.json
 .firebaserc
 .firebase
 
-/src/environments/environments.ts
+!/src/environments/environment.ts

@@ -3,7 +3,9 @@ const { Sequelize, DataTypes } = require("sequelize");
 const log = require("../utils/logger");
 
 const db = config.get("db");
-const sequelize = new Sequelize(`${db.uri}/${db.name}`, {
+const sequelize = new Sequelize(db.name, db.user, db.pass, {
+  host: db.host,
+  port: db.port,
   dialect: db.dialect,
   pool: {
     max: db.pool.max,
@@ -39,7 +41,7 @@ async function generateRole() {
   const roles = ["USER", "ADMIN", "MODERATOR"];
 
   for (const name of roles) {
-    const [role, created] = await Role.findOrCreate({
+    const [, created] = await Role.findOrCreate({
       where: { name: name },
       defaults: { name: name },
     });
@@ -51,4 +53,4 @@ async function generateRole() {
 
 setTimeout(() => {
   generateRole();
-}, 200);
+}, 3000);

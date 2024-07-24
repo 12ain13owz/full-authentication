@@ -2,20 +2,33 @@ const config = require("config");
 const nodemailer = require("nodemailer");
 const fs = require("fs");
 const path = require("path");
-const smtp = config.get("smtp");
+const mailer = config.get("mailer");
 const log = require("./logger");
 const { newError } = require("./helper");
 const { encrypt } = require("./crypto");
 
-const transporter = nodemailer.createTransport({
-  host: smtp.host,
-  port: smtp.port,
-  secure: smtp.secure,
-  auth: {
-    user: smtp.auth.user,
-    pass: smtp.auth.pass,
-  },
-});
+const node_env = config.get("node_env");
+let transporter;
+
+if (node_env === "production") {
+  transporter = nodemailer.createTransport({
+    service: mailer.service,
+    auth: {
+      user: mailer.auth.user,
+      pass: mailer.auth.pass,
+    },
+  });
+} else {
+  transporter = nodemailer.createTransport({
+    host: mailer.host,
+    port: mailer.port,
+    secure: mailer.secure,
+    auth: {
+      user: mailer.auth.user,
+      pass: mailer.auth.pass,
+    },
+  });
+}
 
 const verificationEmail = async (id, fullname, email, verificationCode) => {
   try {
@@ -35,7 +48,7 @@ const verificationEmail = async (id, fullname, email, verificationCode) => {
     htmlTemplate = htmlTemplate.replace("{{ href }}", href);
 
     const mailOptions = {
-      from: smtp.auth.user,
+      from: mailer.auth.user,
       to: email,
       subject: "Full Authentication: Verify your email address",
       html: htmlTemplate,
@@ -64,7 +77,7 @@ const forgotPasswordEmail = async (email, fullname, passwordResetCode) => {
     );
 
     const mailOptions = {
-      from: smtp.auth.user,
+      from: email.auth.user,
       to: email,
       subject: "Full Authentication: Password Reset Code",
       html: htmlTemplate,

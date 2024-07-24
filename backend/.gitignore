@@ -1,3 +1,5 @@
 node_modules
 public
-.env
+config/production.js
+.env.dev
+.env.prod

@@ -1,7 +1,7 @@
 import { Component, inject, output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, Subscription } from 'rxjs';
+import { finalize, Observable, Subscription } from 'rxjs';
 import { ImageCropperComponent } from './image-cropper/image-cropper.component';
 import { mimeType } from './mime-type.validator';
 import { HttpClient } from '@angular/common/http';
@@ -26,6 +26,7 @@ export class AvatarComponent {
   validationField = {
     mimeType: 'Invalid file type. Please upload a valid image (PNG or JPG).',
   };
+  isLoading = false;
 
   ngOnInit(): void {
     this.subscription = this.imageFile.statusChanges.subscribe(
@@ -89,10 +90,14 @@ export class AvatarComponent {
     const formData = new FormData();
     formData.append('avatar', file);
 
-    this.http.post<Avatar>(this.API_URL, formData).subscribe({
-      next: (res) => this.avatar.emit(res.avatar),
-      error: (err) => this.imageUrl.setValue(null),
-    });
+    this.isLoading = true;
+    this.http
+      .post<Avatar>(this.API_URL, formData)
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: (res) => this.avatar.emit(res.avatar),
+        error: (err) => this.imageUrl.setValue(null),
+      });
   }
 
   private resetInput(): void {

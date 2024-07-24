@@ -10,7 +10,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DB_URI=postgres://user_postgres:pass_postgres@postgres:5432
+      - NODE_ENV=development
+      - DB_HOST=postgres
     depends_on:
       - postgres
     networks:

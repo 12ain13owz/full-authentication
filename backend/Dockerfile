@@ -13,9 +13,6 @@ RUN npm install
 # Copy the rest of the application
 COPY . .
 
-# Run the custom script before starting the application
-# RUN node scripts/db
-
 # Define the volume for the public folder
 VOLUME ["/app/public"]
 

@@ -57,7 +57,7 @@ SMTP_PASS="jn7jnAPss4f63QBp6D"
 npm install
 ```
 
-- Create database Postgres (Ex. tutarial_auth)
+- Create database Postgres (Ex. tutorial_auth)
 
 - Run Application
 

@@ -70,6 +70,7 @@ mat-card {
   color: var(--star-color);
   background: linear-gradient(45deg, currentColor, transparent);
   border-radius: 50%;
+  opacity: 0;
   filter: drop-shadow(0 0 6px currentColor);
   transform: translate3d(104em, 0, 0);
   animation: fall var(--fall-duration) var(--fall-delay) linear infinite,

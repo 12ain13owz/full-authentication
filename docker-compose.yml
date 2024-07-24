@@ -16,6 +16,7 @@ services:
       - postgres
     networks:
       - full-auth-network
+    entrypoint: ["sh", "/app/scripts/entrypoint.sh"]
 
   frontend:
     container_name: frontend

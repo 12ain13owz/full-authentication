@@ -24,6 +24,3 @@ EXPOSE 3000
 
 # # Command to run the application
 CMD ["npm", "start"]
-
-# Command to run docker
-# docker run -d -p 3000:3000 -v "$(pwd)/public:/app/public" --name backend full-auth-backend

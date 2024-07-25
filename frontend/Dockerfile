@@ -17,18 +17,3 @@ RUN npm install
 COPY . .
 
 CMD ["ng", "serve", "--host", "0.0.0.0"]
-
-# Build the application
-# RUN ng build
-
-# # Install a simple http server to serve the static content
-# RUN npm install -g http-server
-
-# # Set the working directory to the build output directory
-# WORKDIR /app/dist/frontend/browser
-
-# # Expose port
-# EXPOSE 4200
-
-# # Command to run the application
-# CMD ["http-server", "-p", "4200"]

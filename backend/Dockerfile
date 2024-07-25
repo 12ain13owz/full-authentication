@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Set production environment
-ENV NODE_ENV="production"
+ENV NODE_ENV="development"
 
 # Define the volume for the public folder
 VOLUME ["/app/public"]

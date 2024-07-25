@@ -1,3 +1,9 @@
+:host-context(body.dark-theme) {
+  .verify-container {
+    background: radial-gradient(ellipse at bottom, #0d1d31 0%, #141314 100%);
+  }
+}
+
 .verify-container {
   display: flex;
   justify-content: center;
@@ -5,6 +11,7 @@
   min-height: 100dvh;
   min-width: 100dvw;
   overflow: hidden;
+  background: radial-gradient(ellipse at bottom, #ffd9e1 0%, #f9f9f9 100%);
 
   .icon {
     padding: 20px;
@@ -13,6 +20,7 @@
 
   mat-card {
     max-width: 500px;
+    opacity: 0.8;
   }
 
   mat-icon {

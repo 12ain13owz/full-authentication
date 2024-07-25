@@ -13,6 +13,7 @@ import { ProgressBarComponent } from './components/progress-bar/progress-bar.com
 import { TableComponent } from './components/table/table.component';
 import { SkeletonLoaderComponent } from './components/skeleton-loader/skeleton-loader.component';
 import { RolePipe } from './pipes/role.pipe';
+import { BackgroundAnimationComponent } from './components/background-animation/background-animation.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { RolePipe } from './pipes/role.pipe';
     TableComponent,
     SkeletonLoaderComponent,
     RolePipe,
+    BackgroundAnimationComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +48,7 @@ import { RolePipe } from './pipes/role.pipe';
     TableComponent,
     SkeletonLoaderComponent,
     RolePipe,
+    BackgroundAnimationComponent,
   ],
 })
 export class SharedModule {}

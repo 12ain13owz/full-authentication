@@ -1,4 +1,4 @@
-# Full Authentication with Angular, ExpressJS, Postgres
+# Full Authentication with Angular, ExpressJS, PostgresSQL
 
 ## Getting started
 

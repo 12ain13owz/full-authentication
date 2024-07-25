@@ -38,7 +38,6 @@ app.use(errorHandler);
 
 const main = async () => {
   try {
-    require("./utils/crypto");
     await models.sequelize.sync({ alter: true });
 
     log.info("Database connected successfully");

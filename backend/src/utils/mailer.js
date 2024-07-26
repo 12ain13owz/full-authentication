@@ -58,7 +58,6 @@ const verificationEmail = async (id, fullname, email, verificationCode) => {
     log.debug(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
     log.debug(`Encode  URI: ${encodeURI}`);
   } catch (error) {
-    console.log(error);
     throw newError(400, error.message);
   }
 };

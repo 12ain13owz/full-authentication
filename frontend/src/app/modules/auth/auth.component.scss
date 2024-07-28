@@ -25,3 +25,15 @@ mat-card {
   right: 20px;
   z-index: 1;
 }
+
+.icon-container {
+  position: absolute;
+  top: 40px;
+  left: 200px;
+  z-index: 1;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

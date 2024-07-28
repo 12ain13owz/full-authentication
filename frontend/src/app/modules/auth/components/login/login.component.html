@@ -1,3 +1,7 @@
+@if (isLoading) {
+<app-progress-bar></app-progress-bar>
+}
+
 <mat-card-header>
   <mat-card-title>Login Form</mat-card-title>
   <mat-card-subtitle>Tutorial Authentication</mat-card-subtitle>
@@ -41,7 +45,7 @@
     </mat-form-field>
 
     <div class="d-flex justify-between">
-      <button mat-flat-button>Login</button>
+      <button mat-flat-button [disabled]="isLoading">Login</button>
       <a mat-button routerLink="../forgot-password">Forgot Password?</a>
     </div>
   </mat-card-content>

@@ -15,6 +15,7 @@ const log = require("./utils/logger");
 const routesV1 = require("./routes/v1");
 const errorHandler = require("./middlewares/error-handler.middleware");
 const models = require("./models");
+const { connectRedis } = require("./utils/redis");
 
 const app = express();
 const port = config.get("port");
@@ -39,8 +40,11 @@ app.use(errorHandler);
 const main = async () => {
   try {
     await models.sequelize.sync({ alter: true });
-
     log.info("Database connected successfully");
+
+    await connectRedis();
+    log.info("Redis connected successfully");
+
     log.info(`Server listening at http://localhost:${port}`);
   } catch (error) {
     console.error("Error connecting to the database:", error);

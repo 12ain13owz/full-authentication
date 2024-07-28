@@ -15,6 +15,7 @@ const {
 } = require("../utils/helper");
 const send = require("../utils/mailer");
 const jwt = require("../utils/jwt");
+const { redis } = require("../utils/redis");
 
 const tokenKey = "refreshToken";
 const isProduction = config.get("node_env") === "production";
@@ -135,15 +136,18 @@ const login = async (req, res, next) => {
       Roles: extractRoleNames(user.Roles),
     };
 
-    const expiresCookie = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7); // milliseconds * seconds * minutes * hours * days
+    const expiresDate = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7); // milliseconds * seconds * minutes * hours * days
     res.clearCookie(tokenKey);
     res.cookie(tokenKey, refreshToken, {
       path: "/",
-      expires: expiresCookie,
+      expires: expiresDate,
       httpOnly: true,
       sameSite: isProduction ? "none" : "lax",
       secure: isProduction,
     });
+
+    await redis.sadd(`refresh_${user.id}`, refreshToken);
+    await redis.expireat(`refresh_${user.id}`, expiresDate.getTime());
 
     res.json({ message: "Login Successfully", accessToken, data: profile });
   } catch (error) {
@@ -155,6 +159,12 @@ const logout = async (req, res, next) => {
   res.locals.func = "Controller > Auth > logout";
 
   try {
+    const refreshToken = req.cookies[tokenKey];
+    const userId = req.body?.id;
+
+    if (refreshToken && userId)
+      await redis.srem(`refresh_${userId}`, refreshToken);
+
     res.clearCookie(tokenKey);
     res.json({ message: "Logged out successfully" });
   } catch (error) {
@@ -172,21 +182,31 @@ const refreshToken = async (req, res, next) => {
     const decoded = jwt.verifyJwt(refreshToken, "refreshTokenPublicKey");
     if (!decoded) throw newError(401, "No token provided (2)", true);
 
+    const sismember = await redis.sismember(
+      `refresh_${decoded.userId}`,
+      refreshToken
+    );
+    if (!sismember) throw newError(401, "No token provided (3)", true);
+
     const user = await userService.findById(decoded.userId);
     if (!user) throw newError(404, "User not found", true);
 
     const newAccessToken = jwt.signAccessToken(user.id);
     const newRefreshToken = jwt.signRefreshToken(user.id);
 
-    const expiresCookie = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7); // milliseconds * seconds * minutes * hours * days
+    const expiresDate = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7); // milliseconds * seconds * minutes * hours * days
     res.clearCookie(tokenKey);
     res.cookie(tokenKey, newRefreshToken, {
       path: "/",
-      expires: expiresCookie,
+      expires: expiresDate,
       httpOnly: true,
       sameSite: isProduction ? "none" : "lax",
       secure: isProduction,
     });
+
+    await redis.srem(`refresh_${decoded.userId}`, refreshToken);
+    await redis.sadd(`refresh_${user.id}`, newRefreshToken);
+    await redis.expireat(`refresh_${user.id}`, expiresDate.getTime());
 
     res.json({ accessToken: newAccessToken });
   } catch (error) {
@@ -258,6 +278,8 @@ const resetPassword = async (req, res, next) => {
     const [updatedRowsCount] = await userService.update(id, body);
     if (updatedRowsCount === 0)
       throw newError(400, "User not found or can not change password");
+
+    redis.del(`refresh_${user.id}`);
 
     res.json({ message: "Password reset successfully" });
   } catch (error) {

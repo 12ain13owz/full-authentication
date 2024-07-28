@@ -20,6 +20,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Profile } from '../../shared/models/profile.model';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,10 @@ export class AuthService {
   private profile = new BehaviorSubject<Profile>(null);
   profile$ = this.profile.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private loadingService: LoadingService
+  ) {}
 
   register(body: RegisterPayload) {
     return this.http.post<RegisterResponse>(this.API_URL + '/register', body);
@@ -60,13 +64,23 @@ export class AuthService {
   }
 
   logout(): Observable<LogoutResponse> {
-    return this.http.post<LogoutResponse>(this.API_URL + '/logout', {}).pipe(
-      finalize(() => {
-        localStorage.removeItem('accessToken');
-        this.profile.next(null);
-        this.router.navigate(['/auth/login']);
-      })
-    );
+    const id = this.getProfile()?.id;
+
+    this.loadingService.show();
+    return this.http
+      .post<LogoutResponse>(
+        this.API_URL + '/logout',
+        { id },
+        { withCredentials: true }
+      )
+      .pipe(
+        finalize(() => {
+          localStorage.removeItem('accessToken');
+          this.profile.next(null);
+          this.router.navigate(['/auth/login']);
+          this.loadingService.hide();
+        })
+      );
   }
 
   refreshToken() {

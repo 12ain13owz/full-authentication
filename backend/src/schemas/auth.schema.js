@@ -59,6 +59,12 @@ const login = zod.object({
   }),
 });
 
+const logout = zod.object({
+  body: zod.object({
+    id: zod.number().optional().nullable(),
+  }),
+});
+
 const forgotPassword = zod.object({
   body: zod.object({
     email: zod
@@ -98,6 +104,7 @@ module.exports = {
   resendVerification,
   verifyEmail,
   login,
+  logout,
   forgotPassword,
   resetPassword,
 };

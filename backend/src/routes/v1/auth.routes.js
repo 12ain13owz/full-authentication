@@ -22,7 +22,7 @@ router.post(
   authController.verifyEmail
 );
 router.post("/login", validate(authSchema.login), authController.login);
-router.post("/logout", authController.logout);
+router.post("/logout", validate(authSchema.logout), authController.logout);
 router.post("/refresh", authController.refreshToken);
 router.post(
   "/forgot-password",

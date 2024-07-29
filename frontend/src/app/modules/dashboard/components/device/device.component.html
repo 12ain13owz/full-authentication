@@ -1,0 +1,24 @@
+@defer (when !isLoading ) {
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Device info</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="device-container">
+      @for (device of devices; track $index) {
+      <div class="info-row">
+        <span>{{ device.deviceInfo.browser }}</span>
+        <span>{{ device.deviceInfo.os }}/{{ device.deviceInfo.type }}</span>
+        <button mat-icon-button type="button" (click)="openDialog(device.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      }
+      <mat-divider></mat-divider>
+    </div>
+  </mat-card-content>
+</mat-card>
+} @placeholder (minimum 300ms) {
+<app-progress-bar></app-progress-bar>
+}

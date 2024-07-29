@@ -10,11 +10,11 @@
     <app-theme-toggle></app-theme-toggle>
 
     <div class="avatar-container" [matMenuTriggerFor]="menu">
-      @if ((profile$ | async).avatar; as avatar) {
+      @if ((profile$ | async); as profile) {
       <div
         class="image-container"
         [ngStyle]="{
-          backgroundImage: 'url(' + IMAGE_URL + avatar + ')'
+          backgroundImage: 'url(' + IMAGE_URL + profile.avatar + ')'
         }"
       ></div>
       } @else {
@@ -28,6 +28,11 @@
   <a mat-menu-item routerLink="./profile">
     <mat-icon>person</mat-icon>
     <span>Profile</span>
+  </a>
+
+  <a mat-menu-item routerLink="./device">
+    <mat-icon>devices</mat-icon>
+    <span>Device</span>
   </a>
 
   <button type="button" mat-menu-item (click)="onLogout()">

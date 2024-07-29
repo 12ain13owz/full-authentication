@@ -23,7 +23,13 @@ const whitelist = config.get("whitelist").split(",");
 
 const corsOptions = {
   origin: whitelist,
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "Client-Type",
+    "Client-Browser",
+    "Client-OS",
+  ],
   credentials: true,
 };
 

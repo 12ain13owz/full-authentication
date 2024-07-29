@@ -1,0 +1,50 @@
+mat-card {
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.device-container {
+  display: flex;
+  flex-direction: column;
+
+  a {
+    text-decoration: none;
+  }
+
+  button {
+    color: #e91e63;
+  }
+
+  span {
+    text-transform: capitalize;
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 10px;
+    color: #201a1b;
+
+    > *:nth-child(1) {
+      flex: 0 0 30%;
+    }
+
+    > *:nth-child(2) {
+      flex: 1;
+      text-align: left;
+    }
+
+    > *:nth-child(3) {
+      flex: 0 0 auto;
+    }
+  }
+}
+
+:host-context(body.dark-theme) {
+  .device-container {
+    .info-row {
+      color: #ece0e1;
+    }
+  }
+}

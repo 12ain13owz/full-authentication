@@ -16,6 +16,8 @@ import { UserService } from './services/user.service';
 import { UserApiService } from './services/user-api.service';
 import { RoleComponent } from './components/role/role.component';
 import { DialogDeleteComponent } from './components/delete/dialog-delete/dialog-delete.component';
+import { DeviceComponent } from './components/device/device.component';
+import { DeviceDeleteComponent } from './components/device/device-delete/device-delete.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { DialogDeleteComponent } from './components/delete/dialog-delete/dialog-
     ChangePasswordComponent,
     VerifyStatusComponent,
     DialogDeleteComponent,
+    DeviceComponent,
+    DeviceDeleteComponent,
   ],
   imports: [SharedModule, DashboardRoutingModule],
   providers: [UserService, UserApiService],

@@ -44,4 +44,8 @@ const decrypt = (encryptedData) => {
   }
 };
 
-module.exports = { encrypt, decrypt };
+const generateUniqueIdentifier = () => {
+  return crypto.randomBytes(16).toString("hex");
+};
+
+module.exports = { encrypt, decrypt, generateUniqueIdentifier };

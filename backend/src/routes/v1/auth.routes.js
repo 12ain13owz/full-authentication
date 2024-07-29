@@ -3,6 +3,7 @@ const router = express.Router();
 
 const validate = require("../../middlewares/validate.middleware");
 const verify = require("../../middlewares/verify.middleware");
+const { deviceInfo } = require("../../middlewares/device-info.middleware");
 const authSchema = require("../../schemas/auth.schema");
 const authController = require("../../controllers/auth.controller");
 
@@ -21,9 +22,32 @@ router.post(
   [validate(authSchema.verifyEmail), verify.email],
   authController.verifyEmail
 );
-router.post("/login", validate(authSchema.login), authController.login);
+router.post(
+  "/login",
+  [validate(authSchema.login), deviceInfo],
+  authController.login
+);
 router.post("/logout", validate(authSchema.logout), authController.logout);
-router.post("/refresh", authController.refreshToken);
+router.post("/refresh", deviceInfo, authController.refreshToken);
+router.get(
+  "/devices",
+  verify.accessToken,
+  verify.isUserActive,
+  authController.getDevices
+);
+router.delete(
+  "/devices",
+  verify.accessToken,
+  verify.isUserActive,
+  authController.deleteAllDevices
+);
+router.delete(
+  "/devices/:refreshId",
+  validate(authSchema.deleteDevice),
+  verify.accessToken,
+  verify.isUserActive,
+  authController.deleteDevice
+);
 router.post(
   "/forgot-password",
   validate(authSchema.forgotPassword),

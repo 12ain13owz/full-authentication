@@ -5,7 +5,6 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { finalize } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginPayload } from '../../../../shared/models/auth.model';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -59,8 +58,8 @@ export class LoginComponent {
 
   private initForm() {
     return this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      email: ['touchfn@gmail.com', [Validators.required, Validators.email]],
+      password: ['!Qwer1234', Validators.required],
     });
   }
 }

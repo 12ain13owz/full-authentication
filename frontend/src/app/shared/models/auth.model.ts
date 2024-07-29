@@ -40,3 +40,12 @@ export interface ResetPasswordPayload {
   confirmPassword: string;
 }
 export type ResetPasswordResponse = ApiResponse<null>;
+
+export interface Device {
+  deviceInfo: {
+    type: string;
+    browser: string;
+    os: string;
+  };
+  id: string;
+}

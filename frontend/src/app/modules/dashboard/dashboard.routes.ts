@@ -12,6 +12,7 @@ import { EditAvatarComponent } from './components/profile/edit-avatar/edit-avata
 import { ChangePasswordComponent } from './components/profile/change-password/change-password.component';
 import { VerifyStatusComponent } from './components/verify-status/verify-status.component';
 import { RoleComponent } from './components/role/role.component';
+import { DeviceComponent } from './components/device/device.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'user', pathMatch: 'full' },
@@ -27,6 +28,7 @@ export const routes: Routes = [
       { path: 'delete', component: DeleteComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'profile/edit', component: EditProfileComponent },
+      { path: 'device', component: DeviceComponent },
       { path: 'avatar', component: EditAvatarComponent },
       { path: 'change-password', component: ChangePasswordComponent },
     ],

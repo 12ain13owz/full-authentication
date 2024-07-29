@@ -61,7 +61,13 @@ const login = zod.object({
 
 const logout = zod.object({
   body: zod.object({
-    id: zod.number().optional().nullable(),
+    userId: zod.number().optional().nullable(),
+  }),
+});
+
+const deleteDevice = zod.object({
+  params: zod.object({
+    refreshId: zod.string(),
   }),
 });
 
@@ -105,6 +111,7 @@ module.exports = {
   verifyEmail,
   login,
   logout,
+  deleteDevice,
   forgotPassword,
   resetPassword,
 };

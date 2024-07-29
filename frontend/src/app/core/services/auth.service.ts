@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, finalize, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
+  Device,
   ForgotPasswordPayload,
   ForgotPasswordResponse,
   LoginPayload,
@@ -17,10 +18,12 @@ import {
   VerifyEmailPayload,
   VerifyEmailResponse,
 } from '../../shared/models/auth.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Profile } from '../../shared/models/profile.model';
 import { LoadingService } from './loading.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { ApiResponse } from '../../shared/models/shared.model';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +37,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private deviceService: DeviceDetectorService
   ) {}
 
   register(body: RegisterPayload) {
@@ -49,8 +53,15 @@ export class AuthService {
   }
 
   login(body: LoginPayload) {
+    const headers = new HttpHeaders({
+      'Client-Type': this.deviceService.deviceType,
+      'Client-Browser': this.deviceService.browser,
+      'Client-OS': this.deviceService.os,
+    });
+
     return this.http
       .post<LoginResponse>(this.API_URL + '/login', body, {
+        headers: headers,
         withCredentials: true,
       })
       .pipe(tap((res) => this.setAuthData(res)));
@@ -64,13 +75,13 @@ export class AuthService {
   }
 
   logout(): Observable<LogoutResponse> {
-    const id = this.getProfile()?.id;
-
+    const userId = this.profile.getValue()?.id;
     this.loadingService.show();
+
     return this.http
       .post<LogoutResponse>(
         this.API_URL + '/logout',
-        { id },
+        { userId },
         { withCredentials: true }
       )
       .pipe(
@@ -91,6 +102,14 @@ export class AuthService {
         { withCredentials: true }
       )
       .pipe(tap((res) => this.updateToken(res.accessToken)));
+  }
+
+  getAllDevices() {
+    return this.http.get<Device[]>(this.API_URL + '/devices');
+  }
+
+  deleteDevice(id: string) {
+    return this.http.delete<ApiResponse<null>>(this.API_URL + '/devices/' + id);
   }
 
   forgotPassword(body: ForgotPasswordPayload) {

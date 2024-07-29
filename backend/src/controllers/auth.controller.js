@@ -15,7 +15,7 @@ const {
 } = require("../utils/helper");
 const send = require("../utils/mailer");
 const jwt = require("../utils/jwt");
-const { redis } = require("../utils/redis");
+const redis = require("../utils/redis");
 
 const tokenKey = "refreshToken";
 const isProduction = config.get("node_env") === "production";
@@ -146,8 +146,8 @@ const login = async (req, res, next) => {
       secure: isProduction,
     });
 
-    await redis.sadd(`refresh_${user.id}`, refreshToken);
-    await redis.expireat(`refresh_${user.id}`, expiresDate.getTime());
+    const deviceInfo = res.locals.deviceInfo;
+    await redis.addRefreshToken(user.id, refreshToken, deviceInfo, expiresDate);
 
     res.json({ message: "Login Successfully", accessToken, data: profile });
   } catch (error) {
@@ -159,11 +159,18 @@ const logout = async (req, res, next) => {
   res.locals.func = "Controller > Auth > logout";
 
   try {
+    const userId = req.body?.userId;
     const refreshToken = req.cookies[tokenKey];
-    const userId = req.body?.id;
 
-    if (refreshToken && userId)
-      await redis.srem(`refresh_${userId}`, refreshToken);
+    if (userId && refreshToken) {
+      const refreshRedis = await redis.getRefreshTokenById(
+        userId,
+        refreshToken
+      );
+
+      if (refreshRedis)
+        await redis.deleteRefreshTokenById(userId, refreshRedis.id);
+    }
 
     res.clearCookie(tokenKey);
     res.json({ message: "Logged out successfully" });
@@ -182,14 +189,11 @@ const refreshToken = async (req, res, next) => {
     const decoded = jwt.verifyJwt(refreshToken, "refreshTokenPublicKey");
     if (!decoded) throw newError(401, "No token provided (2)", true);
 
-    const sismember = await redis.sismember(
-      `refresh_${decoded.userId}`,
-      refreshToken
-    );
-    if (!sismember) throw newError(401, "No token provided (3)", true);
-
     const user = await userService.findById(decoded.userId);
     if (!user) throw newError(404, "User not found", true);
+
+    const refreshRedis = await redis.getRefreshTokenById(user.id, refreshToken);
+    if (!refreshRedis) throw newError(401, "No toke  provided (3)", true);
 
     const newAccessToken = jwt.signAccessToken(user.id);
     const newRefreshToken = jwt.signRefreshToken(user.id);
@@ -204,11 +208,58 @@ const refreshToken = async (req, res, next) => {
       secure: isProduction,
     });
 
-    await redis.srem(`refresh_${decoded.userId}`, refreshToken);
-    await redis.sadd(`refresh_${user.id}`, newRefreshToken);
-    await redis.expireat(`refresh_${user.id}`, expiresDate.getTime());
+    const deviceInfo = refreshRedis.deviceInfo;
+    const refreshId = refreshRedis.id;
+
+    await redis.deleteRefreshTokenById(user.id, refreshId);
+    await redis.addRefreshToken(
+      user.id,
+      newRefreshToken,
+      deviceInfo,
+      expiresDate
+    );
 
     res.json({ accessToken: newAccessToken });
+  } catch (error) {
+    res.clearCookie(tokenKey);
+    next(error);
+  }
+};
+
+const getDevices = async (req, res, next) => {
+  res.locals.func = "Controller > Auth > getRefreshToken";
+
+  try {
+    const id = res.locals.userId;
+    const devices = await redis.getDevices(id);
+
+    res.json(devices);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteAllDevices = async (req, res, next) => {
+  try {
+    const userId = res.locals.userId;
+    await redis.deleteRefreshToken(userId);
+
+    res.json({ message: "Delete all devices successfully " });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteDevice = async (req, res, next) => {
+  res.locals.func = "Controller > Auth > deleteDevice";
+
+  try {
+    const userId = res.locals.userId;
+    const refreshId = req.params.refreshId;
+
+    await redis.deleteRefreshTokenById(userId, refreshId);
+
+    res.json({ message: "Delete device successfully " });
   } catch (error) {
     next(error);
   }
@@ -279,7 +330,7 @@ const resetPassword = async (req, res, next) => {
     if (updatedRowsCount === 0)
       throw newError(400, "User not found or can not change password");
 
-    redis.del(`refresh_${user.id}`);
+    await redis.deleteRefreshToken(id);
 
     res.json({ message: "Password reset successfully" });
   } catch (error) {
@@ -294,6 +345,9 @@ module.exports = {
   login,
   logout,
   refreshToken,
+  getDevices,
+  deleteAllDevices,
+  deleteDevice,
   forgotPassword,
   resetPassword,
 };

@@ -19,15 +19,18 @@
     </section>
 
     <mat-divider></mat-divider>
-    <mat-card-actions>
+    <mat-card-actions class="justify-between">
       <button
-        mat-raised-button
+        type="button"
+        mat-flat-button
         color="primary"
         (click)="onResendVerification()"
         [disabled]="isLoading"
       >
         {{ isLoading ? "Sending..." : "Resend Verification Email" }}
       </button>
+
+      <button type="button" mat-button (click)="onLogout()">Logout</button>
     </mat-card-actions>
   </mat-card>
 </section>

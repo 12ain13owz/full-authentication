@@ -32,4 +32,8 @@ export class VerifyStatusComponent {
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe((res) => this.toastr.info(res.message));
   }
+
+  onLogout() {
+    this.authService.logout().subscribe();
+  }
 }

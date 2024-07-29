@@ -193,7 +193,7 @@ const refreshToken = async (req, res, next) => {
     if (!user) throw newError(404, "User not found", true);
 
     const refreshRedis = await redis.getRefreshTokenById(user.id, refreshToken);
-    if (!refreshRedis) throw newError(401, "No toke  provided (3)", true);
+    if (!refreshRedis) throw newError(401, "No token  provided (3)", true);
 
     const newAccessToken = jwt.signAccessToken(user.id);
     const newRefreshToken = jwt.signRefreshToken(user.id);

@@ -1,6 +1,6 @@
 import { ResolveFn } from '@angular/router';
 import { inject } from '@angular/core';
-import { finalize, map, of, tap } from 'rxjs';
+import { finalize, of, tap } from 'rxjs';
 import { LoadingService } from '../services/loading.service';
 import { ProfileService } from '../services/profile.service';
 import { AuthService } from '../services/auth.service';

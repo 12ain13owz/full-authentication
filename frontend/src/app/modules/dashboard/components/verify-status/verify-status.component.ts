@@ -19,12 +19,8 @@ export class VerifyStatusComponent {
   isLoading = false;
 
   ngOnInit() {
-    if (this.profile?.verified) {
-      this.router.navigate(['/dashboard']);
-      return;
-    }
-
-    this.authService.logout();
+    if (!this.profile) this.authService.logout();
+    if (this.profile.verified) this.router.navigate(['/dashboard']);
   }
 
   onResendVerification() {

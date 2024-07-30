@@ -121,6 +121,8 @@ const login = async (req, res, next) => {
   res.locals.func = "Controller > Auth > login";
 
   try {
+    console.log(req.body);
+
     const email = normalizeUnique(req.body.email);
     const user = await userService.findByEmail(email);
     if (!user) throw newError(401, "Invalid email or password");

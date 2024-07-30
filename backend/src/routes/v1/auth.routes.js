@@ -24,7 +24,7 @@ router.post(
 );
 router.post(
   "/login",
-  [validate(authSchema.login), deviceInfo],
+  [validate(authSchema.login), verify.recaptcha, deviceInfo],
   authController.login
 );
 router.post("/logout", validate(authSchema.logout), authController.logout);

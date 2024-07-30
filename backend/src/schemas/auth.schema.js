@@ -56,6 +56,7 @@ const login = zod.object({
     password: zod
       .string({ required_error: "Password is required" })
       .min(1, { message: "Password is required" }),
+    token: zod.string({ required_error: "Token is required" }),
   }),
 });
 

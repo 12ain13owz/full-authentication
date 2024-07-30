@@ -1,7 +1,9 @@
+const config = require("config");
 const { newError, extractRoleNames } = require("../utils/helper");
 const { verifyJwt } = require("../utils/jwt");
 const userService = require("../services/user.service");
 const { decrypt } = require("../utils/crypto");
+const node_env = config.get("node_env");
 
 const email = (req, res, next) => {
   res.locals.func = "Middleware > Verify > email";
@@ -78,4 +80,30 @@ const checkRole = (roles) => {
   };
 };
 
-module.exports = { email, accessToken, isUserActive, checkRole };
+const recaptcha = async (req, res, next) => {
+  res.locals.func = "Middleware > Verify > recaptcha";
+
+  try {
+    if (node_env === "development") return next();
+
+    const { token } = req.body;
+    if (!token && token.length <= 0)
+      throw newError(400, "Turnstile token not provided");
+
+    const secretKey = config.get("turnstileSecretKey");
+    let formData = new FormData();
+    formData.append("secret", secretKey);
+    formData.append("response", token);
+
+    const url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+    const result = await fetch(url, { body: formData, method: "POST" });
+    const outcome = await result.json();
+
+    if (!outcome.success) throw newError(400, "Invalid Turnstile token");
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { email, accessToken, isUserActive, checkRole, recaptcha };

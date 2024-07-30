@@ -27,6 +27,8 @@ const config = {
     },
   },
   redisUrl: process.env.REDIS_URL,
+  turnstileSiteKey: process.env.TURNSTILE_SITE_KEY,
+  turnstileSecretKey: process.env.TURNSTILE_SECRET_KEY,
   accessTokenPublicKey: process.env.ACCESS_TOKEN_PUBLIC_KEY,
   accessTokenPrivateKey: process.env.ACCESS_TOKEN_PRIVATE_KEY,
   refreshTokenPublicKey: process.env.REFRESH_TOKEN_PUBLIC_KEY,

@@ -23,7 +23,9 @@ export type VerifyEmailResponse = ApiResponse<null>;
 export type resentVerificationPayload = Pick<RegisterPayload, 'email'>;
 export type resentVerificationResponse = ApiResponse<null>;
 
-export type LoginPayload = Pick<RegisterPayload, 'email' | 'password'>;
+export type LoginPayload = Pick<RegisterPayload, 'email' | 'password'> & {
+  token: string;
+};
 export type LoginResponse = ApiResponse<Profile> & { accessToken: string };
 
 export type LogoutResponse = ApiResponse<null>;

@@ -5,6 +5,7 @@
 - Create .env file backend/.env.dev
 - Generate RSA keys `(Key Size: 2048 bit)`: https://travistidwell.com/jsencrypt/demo/
 - Generate Secret keys: https://randomkeygen.com/
+- Turnstile Start: https://developers.cloudflare.com/turnstile/get-started/
 
 ```
 PORT="your_port"

@@ -56,18 +56,12 @@ TURNSTILE_SECRET_KEY=""
 
 - Install Dependencies
 
-1. cd <project_name>\backend
-2. cd <project_name>\frontend
+1. cd <project_name>\backend npm install
+2. cd <project_name>\frontend npm install
 
-```
-npm install
-```
-
-- Create database Postgres (Ex. tutorial_auth)
+- Create database Postgres (Ex.name tutorial_auth)
 
 - Run Application
 
-```
-npm run dev
-ng serve
-```
+1. cd <project_name>\backend npm run dev
+2. cd <project_name>\frontend ng serve

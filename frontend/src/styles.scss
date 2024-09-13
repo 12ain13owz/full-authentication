@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import url("https://fonts.googleapis.com/css2?family=Nerko+One&display=swap");
 @import "assets/scss/theme.scss";
 
 $bg-color: #141314;
@@ -14,7 +15,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Nerko One", sans-serif;
 }
 
 body.dark-theme {

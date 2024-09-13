@@ -6,6 +6,13 @@ $light-theme: mat.define-theme(
       theme-type: light,
       primary: mat.$rose-palette,
     ),
+    typography: (
+      plain-family: "Nerko One",
+      brand-family: "Nerko One",
+      bold-weight: "Nerko One",
+      medium-weight: "Nerko One",
+      regular-weight: "Nerko One",
+    ),
   )
 );
 

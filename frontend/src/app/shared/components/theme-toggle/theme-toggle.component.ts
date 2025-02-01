@@ -10,7 +10,7 @@ type Theme = 'light' | 'dark';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeToggleComponent {
-  private themeService = inject(ThemeService);
+  private readonly themeService = inject(ThemeService);
   theme = this.themeService.currentTheme() === 'dark';
 
   toggleTheme() {

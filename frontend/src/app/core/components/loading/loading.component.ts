@@ -12,6 +12,6 @@ import { AsyncPipe } from '@angular/common';
   animations: [FadeInOut(200, 200, true)],
 })
 export class LoadingComponent {
-  private loadingService = inject(LoadingService);
+  private readonly loadingService = inject(LoadingService);
   isLoading$ = this.loadingService.isLoading$;
 }

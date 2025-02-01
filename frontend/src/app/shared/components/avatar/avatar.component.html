@@ -1,16 +1,16 @@
 @if (isLoading) {
-<app-progress-bar></app-progress-bar>
+  <app-progress-bar></app-progress-bar>
 }
 
 <div class="avatar-container">
   @if (imageUrl.value) {
-  <div
-    class="image-container"
-    [ngClass]="{ 'box-shadow-avatar': !!imageUrl.value }"
-    [ngStyle]="{ backgroundImage: 'url(' + imageUrl.value + ')' }"
-  ></div>
+    <div
+      class="image-container"
+      [ngClass]="{ 'box-shadow-avatar': !!imageUrl.value }"
+      [ngStyle]="{ backgroundImage: 'url(' + imageUrl.value + ')' }"
+    ></div>
   } @else {
-  <div class="image-container avatar-placeholder"></div>
+    <div class="image-container avatar-placeholder"></div>
   }
 
   <label for="avatar-input-file">
